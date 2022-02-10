@@ -10,7 +10,7 @@ verbose && echo "Measuring line lengths..."
 tools/measure
 
 # SITE_DIR is the final location where we want generated content to be
-SITE_DIR="public"
+SITE_DIR="./public"
 
 # GENERATE_DIR is where the content will be generated initially
 GENERATE_DIR="$(mktemp -d)"
@@ -22,14 +22,6 @@ trap cleanup EXIT
 
 echo "Generating HTML to $GENERATE_DIR..."
 go run tools/generate.go $GENERATE_DIR
-
-# In TESTING mode, make sure that the generated content is identical to
-# what's already in SITE_DIR. If a difference is found, this script exits
-# with an error.
-# if [[ ! -z "$TESTING" ]]; then
-# 	echo "Comparing $GENERATE_DIR with $SITE_DIR..."
-# 	diff -r "$GENERATE_DIR" "$SITE_DIR"
-# fi
 
 echo "Copying $GENERATE_DIR to $SITE_DIR"
 cp -rf "${GENERATE_DIR}/." "$SITE_DIR"

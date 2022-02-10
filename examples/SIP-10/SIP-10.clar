@@ -36,7 +36,10 @@
 			(err ERR_INSUFFICIENT_BALANCE)
 		)
 		
-		(ft-transfer? examples amount sender recipient)
+;; send the tokens or panic.
+		(unwrap-panic 
+			(ft-transfer? example amount sender recipient)
+		)
 
 		(ok true)
 	)
