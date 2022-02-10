@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Clarity by Example: SIP-10 (Tokens)</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'hello-world';
+          }
+          
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="sip-10">
+      <h2><a href="./" id="logo">Clarity by Example (WIP)</a>: SIP-10 (Tokens)</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>A simple SIP-10 token.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>defines the token with the identifier <code>example</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define-fungible-token</span> <span class="nv">example</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>when a user lacks funds.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define-constant</span> <span class="nv">ERR_INSUFFICIENT_BALANCE</span> <span class="nv">u1000</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>when a user acts on behalf of another user.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define-constant</span> <span class="nv">ERR_NOT_AUTHORIZED</span> <span class="nv">u1001</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>implements transfering from person to person.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define-public</span> <span class="p">(</span><span class="nv">transfer</span> </span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>amount of tokens being sent.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nv">amount</span> <span class="kr">uint</span><span class="p">)</span> </span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>sender of tokens.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nv">from</span> <span class="kr">principal</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>receiver of tokens.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nv">to</span> <span class="kr">principal</span><span class="p">)</span> </span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>optionally stores arbitrary data.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nv">memo</span> <span class="p">(</span><span class="kr">optional</span> <span class="p">(</span><span class="kr">buff</span> <span class="mi">34</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">begin</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>makes sure sender is the contract caller.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">asserts</span><span class="nv">!</span> 
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">is-eq</span> <span class="kc">tx-sender</span> <span class="nv">sender</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">err</span> <span class="k">ERR</span><span class="nv">-NOT-AUTHORIZED</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        </span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>makes sure the sender has the funds.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">asserts</span><span class="nv">!</span> 
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">if</span> 
+</span></span><span class="line"><span class="cl">                <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">                <span class="p">(</span><span class="nv">&lt;</span> <span class="k">ft-get-balance</span> <span class="nv">example</span> <span class="nv">sender</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">                <span class="nv">amount</span>
+</span></span><span class="line"><span class="cl">            <span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">err</span> <span class="nv">ERR_INSUFFICIENT_BALANCE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        </span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>send the tokens or panic.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">unwrap-panic</span> 
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">ft-transfer</span><span class="nv">?</span> <span class="nv">example</span> <span class="nv">amount</span> <span class="nv">sender</span> <span class="nv">recipient</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">        <span class="p">(</span><span class="k">ok</span> <span class="kc">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>the human-readable name of the token.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define-read-only</span> <span class="p">(</span><span class="k">get</span><span class="nv">-name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">ok</span> <span class="s">&#34;Example&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>the ticker of the token.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define-read-only</span> <span class="p">(</span><span class="k">get</span><span class="nv">-symbol</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">ok</span> <span class="s">&#34;EXP&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>where the decimle point is stored.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define-read-only</span> <span class="p">(</span><span class="k">get</span><span class="nv">-decimals</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">ok</span> <span class="nv">u4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>URL of the manifest (or none).</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define-public</span> <span class="p">(</span><span class="k">get</span><span class="nv">-token-uri</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>follows <a href="https://bit.ly/35X3pex">this specification</a>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">ok</span> <span class="p">(</span><span class="k">some</span> <span class="s">&#34;https://example.com/manifest.json&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>the total supply of tokens.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define-read-only</span> <span class="p">(</span><span class="k">get</span><span class="nv">-total-supply</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">ok</span> <span class="p">(</span><span class="k">ft-get-supply</span> <span class="nv">example</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>the balance of a specific user.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define-read-only</span> <span class="p">(</span><span class="k">get</span><span class="nv">-balance</span> <span class="p">(</span><span class="nv">address</span> <span class="kr">principal</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">ok</span> <span class="p">(</span><span class="k">ft-get-balance</span> <span class="nv">example</span> <span class="nv">address</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>TODO</p>
+
+          </td>
+          <td class="code">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> echo &#34;TODO&#34;
+</span></span><span class="line"><span class="cl"><span class="go">TODO</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+
+    <p class="footer">
+      by <a href="https://github.com/linden">Linden</a> | <a href="https://github.com/linden/claritybyexample">source</a> | <a href="https://github.com/linden/claritybyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>
