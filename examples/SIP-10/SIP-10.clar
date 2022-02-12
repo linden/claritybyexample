@@ -7,6 +7,10 @@
 ;; When a user acts on behalf of another user.
 (define-constant ERR_NOT_AUTHORIZED u1001)
 
+;; Mint 100,000 uExample and send it to the 
+;; contract deployer.
+(ft-mint? example u100000 tx-sender)
+
 ;; User to user transfering.
 (define-public (transfer 
 ;; Amount of tokens being sent.
