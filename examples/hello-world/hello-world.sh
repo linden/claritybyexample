@@ -67,7 +67,7 @@ Initialized balances
 # Now that we're in the [REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop#Overview), we can call the 
 # public functions/contracts listed above. 
 
-# For example here's how we can the `hello-world` 
+# For example here's how we can call the `hello-world` 
 # function from our `.hello-world` contract.
 $ (contract-call? .hello-world hello-world)
 (ok "Hello World")
