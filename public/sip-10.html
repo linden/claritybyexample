@@ -34,7 +34,7 @@
         
         <tr>
           <td class="docs">
-            <p>defines the token with the identifier <code>example</code>.</p>
+            <p>Defines the token with the identifier <code>example</code>.</p>
 
           </td>
           <td class="code leading">
@@ -46,7 +46,7 @@
         
         <tr>
           <td class="docs">
-            <p>when a user lacks funds.</p>
+            <p>When a user lacks funds.</p>
 
           </td>
           <td class="code leading">
@@ -58,7 +58,7 @@
         
         <tr>
           <td class="docs">
-            <p>when a user acts on behalf of another user.</p>
+            <p>When a user acts on behalf of another user.</p>
 
           </td>
           <td class="code leading">
@@ -70,7 +70,20 @@
         
         <tr>
           <td class="docs">
-            <p>implements transfering from person to person.</p>
+            <p>Mint 100,000 uExample and send it to the
+contract deployer.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">ft-mint</span><span class="nv">?</span> <span class="nv">example</span> <span class="nv">u100000</span> <span class="kc">tx-sender</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>User to user transfering.</p>
 
           </td>
           <td class="code leading">
@@ -82,7 +95,7 @@
         
         <tr>
           <td class="docs">
-            <p>amount of tokens being sent.</p>
+            <p>Amount of tokens being sent.</p>
 
           </td>
           <td class="code leading">
@@ -94,7 +107,7 @@
         
         <tr>
           <td class="docs">
-            <p>sender of tokens.</p>
+            <p>Sender of tokens.</p>
 
           </td>
           <td class="code leading">
@@ -106,7 +119,7 @@
         
         <tr>
           <td class="docs">
-            <p>receiver of tokens.</p>
+            <p>Receiver of tokens.</p>
 
           </td>
           <td class="code leading">
@@ -118,13 +131,13 @@
         
         <tr>
           <td class="docs">
-            <p>optionally stores arbitrary data.</p>
+            <p>Optionally stores arbitrary data.</p>
 
           </td>
           <td class="code leading">
             
           <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nv">memo</span> <span class="p">(</span><span class="kr">optional</span> <span class="p">(</span><span class="kr">buff</span> <span class="mi">34</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nv">memo</span> <span class="p">(</span><span class="kr">optional</span> <span class="p">(</span><span class="kr">buff</span> <span class="mi">34</span><span class="p">)))</span>
 </span></span><span class="line"><span class="cl">    <span class="p">)</span>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">begin</span></span></span></code></pre>
@@ -133,15 +146,15 @@
         
         <tr>
           <td class="docs">
-            <p>makes sure sender is the contract caller.</p>
+            <p>Makes sure sender is the contract caller.</p>
 
           </td>
           <td class="code leading">
             
           <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">asserts</span><span class="nv">!</span> 
-</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">is-eq</span> <span class="kc">tx-sender</span> <span class="nv">sender</span><span class="p">)</span> 
-</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">err</span> <span class="k">ERR</span><span class="nv">-NOT-AUTHORIZED</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">is-eq</span> <span class="kc">tx-sender</span> <span class="nv">from</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">err</span> <span class="nv">ERR_NOT_AUTHORIZED</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="p">)</span>
 </span></span><span class="line"><span class="cl">        </span></span></code></pre>
           </td>
@@ -149,18 +162,14 @@
         
         <tr>
           <td class="docs">
-            <p>makes sure the sender has the funds.</p>
+            <p>Makes sure the sender has the funds.</p>
 
           </td>
           <td class="code leading">
             
           <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">asserts</span><span class="nv">!</span> 
-</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">if</span> 
-</span></span><span class="line"><span class="cl">                <span class="kc">true</span>
-</span></span><span class="line"><span class="cl">                <span class="p">(</span><span class="nv">&lt;</span> <span class="k">ft-get-balance</span> <span class="nv">example</span> <span class="nv">sender</span><span class="p">)</span> 
-</span></span><span class="line"><span class="cl">                <span class="nv">amount</span>
-</span></span><span class="line"><span class="cl">            <span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="nv">&gt;=</span> <span class="p">(</span><span class="k">ft-get-balance</span> <span class="nv">example</span> <span class="nv">from</span><span class="p">)</span> <span class="nv">amount</span><span class="p">)</span> 
 </span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">err</span> <span class="nv">ERR_INSUFFICIENT_BALANCE</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="p">)</span>
 </span></span><span class="line"><span class="cl">        </span></span></code></pre>
@@ -169,14 +178,14 @@
         
         <tr>
           <td class="docs">
-            <p>send the tokens or panic.</p>
+            <p>Send the tokens or panic.</p>
 
           </td>
           <td class="code leading">
             
           <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">unwrap-panic</span> 
-</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">ft-transfer</span><span class="nv">?</span> <span class="nv">example</span> <span class="nv">amount</span> <span class="nv">sender</span> <span class="nv">recipient</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">ft-transfer</span><span class="nv">?</span> <span class="nv">example</span> <span class="nv">amount</span> <span class="nv">from</span> <span class="nv">to</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="p">)</span></span></span></code></pre>
           </td>
         </tr>
@@ -195,7 +204,7 @@
         
         <tr>
           <td class="docs">
-            <p>the human-readable name of the token.</p>
+            <p>The human-readable name of the token.</p>
 
           </td>
           <td class="code leading">
@@ -209,7 +218,7 @@
         
         <tr>
           <td class="docs">
-            <p>the ticker of the token.</p>
+            <p>The ticker of the token.</p>
 
           </td>
           <td class="code leading">
@@ -223,7 +232,7 @@
         
         <tr>
           <td class="docs">
-            <p>where the decimle point is stored.</p>
+            <p>Where the decimal point is stored.</p>
 
           </td>
           <td class="code leading">
@@ -249,7 +258,7 @@
         
         <tr>
           <td class="docs">
-            <p>follows <a href="https://bit.ly/35X3pex">this specification</a>.</p>
+            <p>Follows <a href="https://bit.ly/35X3pex">this specification</a>.</p>
 
           </td>
           <td class="code leading">
@@ -262,7 +271,7 @@
         
         <tr>
           <td class="docs">
-            <p>the total supply of tokens.</p>
+            <p>The total supply of tokens.</p>
 
           </td>
           <td class="code leading">
@@ -276,7 +285,7 @@
         
         <tr>
           <td class="docs">
-            <p>the balance of a specific user.</p>
+            <p>The balance of a specific user.</p>
 
           </td>
           <td class="code">
@@ -294,14 +303,153 @@
         
         <tr>
           <td class="docs">
-            <p>TODO</p>
+            <p>Create our contract.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> clarinet contract new SIP-10
+</span></span><span class="line"><span class="cl"><span class="go">Updated Clarinet.toml with contract SIP-10</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Now add the source to the contract
+located at <code>contracts/SIP-10.clar</code>.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Enter the <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop#Overview">REPL</a>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> clarinet poke
+</span></span><span class="line"><span class="cl"><span class="go">clarity-repl v0.21.0
+</span></span></span><span class="line"><span class="cl"><span class="go">Enter &#34;::help&#34; for usage hints.
+</span></span></span><span class="line"><span class="cl"><span class="go">Connected to a transient in-memory database.</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>List of contracts and callable functions.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="go">Contracts
+</span></span></span><span class="line"><span class="cl"><span class="go">+---------------------+----------------------------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| Contract identifier | Public functions                 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+---------------------+----------------------------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address.SIP-10      | (get-balance(address principal)) |
+</span></span></span><span class="line"><span class="cl"><span class="go">|                     | (get-decimals)                   |
+</span></span></span><span class="line"><span class="cl"><span class="go">|                     | (get-name)                       |
+</span></span></span><span class="line"><span class="cl"><span class="go">|                     | (get-symbol)                     |
+</span></span></span><span class="line"><span class="cl"><span class="go">|                     | (get-token-uri)                  |
+</span></span></span><span class="line"><span class="cl"><span class="go">|                     | (get-total-supply)               |
+</span></span></span><span class="line"><span class="cl"><span class="go">|                     | (transfer                        |
+</span></span></span><span class="line"><span class="cl"><span class="go">|                     |     (amount uint)                |
+</span></span></span><span class="line"><span class="cl"><span class="go">|                     |     (from principal)             |
+</span></span></span><span class="line"><span class="cl"><span class="go">|                     |     (to principal)               |
+</span></span></span><span class="line"><span class="cl"><span class="go">|                     |     (memo (optional (buff 34)))) |
+</span></span></span><span class="line"><span class="cl"><span class="go">+---------------------+----------------------------------+</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Wallets loaded in from <code>settings/Devnet.toml</code>,
+balances listed in uSTX.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="go">Initialized balances
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| Address            | STX             |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (deployer) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_1) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_2) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_3) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_4) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_5) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_6) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_8) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_7) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_9) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Now we can call the public functions.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Get the total supply of example.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> (contract-call? .SIP-10 get-total-supply)
+</span></span><span class="line"><span class="cl"><span class="go">(ok u100000)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Transfer 100 of our uExample to a random user.<br />
+<em>Note: Principales are prefixed by &lsquo;</em>.</p>
 
           </td>
           <td class="code">
             
           <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="gp">$</span> echo &#34;TODO&#34;
-</span></span><span class="line"><span class="cl"><span class="go">TODO</span></span></span></code></pre>
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> (contract-call? .SIP-10 transfer u100 tx-sender &#39;SP3TZ3N
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> Y4GB3E3Y1K1D40BHE07P20KMS4A8YC4QRJ none)
+</span></span><span class="line"><span class="cl"><span class="go">Events emitted
+</span></span></span><span class="line"><span class="cl"><span class="go">{
+</span></span></span><span class="line"><span class="cl"><span class="go">  type: &#34;ft_transfer_event&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="go">  ft_transfer_event: {
+</span></span></span><span class="line"><span class="cl"><span class="go">    asset_identifier: &#34;address.SIP-10::example&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="go">    sender: &#34;address&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="go">    recipient: &#34;address&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="go">    amount: &#34;100&#34;
+</span></span></span><span class="line"><span class="cl"><span class="go">  }
+</span></span></span><span class="line"><span class="cl"><span class="go">}
+</span></span></span><span class="line"><span class="cl"><span class="go">(ok true)</span></span></span></code></pre>
           </td>
         </tr>
         
@@ -316,7 +464,7 @@
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>
