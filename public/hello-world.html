@@ -23,14 +23,38 @@
         
         <tr>
           <td class="docs">
-            <p>Our first smart-contract will print the classic
-&ldquo;hello world&rdquo; message. Here&rsquo;s the full source code.</p>
+            <p>Our first smart-contract will return the classic
+&ldquo;Hello World&rdquo; message.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Define a public function called &ldquo;hello-world&rdquo;.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define-public</span> <span class="p">(</span><span class="nv">hello-world</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Returns &ldquo;Hello World&rdquo; with a status <code>ok</code>.</p>
 
           </td>
           <td class="code">
             
           <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">print</span> <span class="s">&#34;hello world&#34;</span><span class="p">)</span></span></span></code></pre>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">ok</span> <span class="s">&#34;Hello World&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
           </td>
         </tr>
         
@@ -40,14 +64,75 @@
         
         <tr>
           <td class="docs">
-            <p>To run the smart-contract, put the code in
-<code>hello-world.clar</code> and pipe it into the <code>clarity-repl</code>.</p>
+            <p>Before we can run the smart-contract, we need to set our
+<a href="https://github.com/hirosystems/clarinet">Clarinet</a> workspace.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>First create our workspace.</p>
 
           </td>
           <td class="code leading">
             
           <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="gp">$</span> cat hello-world.clar | clarity-repl
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> clarinet new example
+</span></span><span class="line"><span class="cl"><span class="go">Creating directory example
+</span></span></span><span class="line"><span class="cl"><span class="go">Created file example/contracts
+</span></span></span><span class="line"><span class="cl"><span class="go">Created file example/settings
+</span></span></span><span class="line"><span class="cl"><span class="go">Created file example/tests
+</span></span></span><span class="line"><span class="cl"><span class="go">Created file example/Clarinet.toml
+</span></span></span><span class="line"><span class="cl"><span class="go">Created file example/settings/Mainnet.toml
+</span></span></span><span class="line"><span class="cl"><span class="go">Created file example/settings/Testnet.toml
+</span></span></span><span class="line"><span class="cl"><span class="go">Created file example/settings/Devnet.toml
+</span></span></span><span class="line"><span class="cl"><span class="go">Created file example/.vscode
+</span></span></span><span class="line"><span class="cl"><span class="go">Created file example/.vscode/settings.json
+</span></span></span><span class="line"><span class="cl"><span class="go">Created file example/.vscode/tasks.json
+</span></span></span><span class="line"><span class="cl"><span class="go">Created file example/.gitignore</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Then create our contract.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> clarinet contract new hello-world
+</span></span><span class="line"><span class="cl"><span class="go">Updated Clarinet.toml with contract hello-world</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Put the source code in the contract (located at
+<code>contracts/hello-world.clar</code>).</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Now we have our <a href="https://github.com/hirosystems/clarinet">Clarinet</a> workspace set up
+we can load our contract into the <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop#Overview">REPL</a>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> clarinet poke
 </span></span><span class="line"><span class="cl"><span class="go">clarity-repl v0.21.0
 </span></span></span><span class="line"><span class="cl"><span class="go">Enter &#34;::help&#34; for usage hints.
 </span></span></span><span class="line"><span class="cl"><span class="go">Connected to a transient in-memory database.</span></span></span></code></pre>
@@ -56,26 +141,87 @@
         
         <tr>
           <td class="docs">
-            
+            <p>List of contracts and callable functions.</p>
+
           </td>
           <td class="code leading">
             
-          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="go">Events emitted {
-</span></span></span><span class="line"><span class="cl"><span class="go">  contract_event: {
-</span></span></span><span class="line"><span class="cl"><span class="go">    contract_identifier: &#34;ST000.contract-2&#34;,
-</span></span></span><span class="line"><span class="cl"><span class="go">    topic: &#34;print&#34;,
-</span></span></span><span class="line"><span class="cl"><span class="go">    value: &#39;&#34;hello world&#34;&#39;
-</span></span></span><span class="line"><span class="cl"><span class="go">  },
-</span></span></span><span class="line"><span class="cl"><span class="go">  type: &#34;contract_event&#34;
-</span></span></span><span class="line"><span class="cl"><span class="go">}
-</span></span></span><span class="line"><span class="cl"><span class="go">&#34;hello world&#34;</span></span></span></code></pre>
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="go">Contracts
+</span></span></span><span class="line"><span class="cl"><span class="go">+---------------------+------------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| Contract identifier | Public functions |
+</span></span></span><span class="line"><span class="cl"><span class="go">+---------------------+------------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address.hello-world | (hello-world)    |
+</span></span></span><span class="line"><span class="cl"><span class="go">+---------------------+------------------+</span></span></span></code></pre>
           </td>
         </tr>
         
         <tr>
           <td class="docs">
-            <p>Now that we can run a basic Clarity
-smart-contract, let&rsquo;s learn more about the language.</p>
+            <p>Wallets loaded in from <code>settings/Devnet.toml</code>,
+balances listed in uSTX.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="go">Initialized balances
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| Address            | STX             |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (deployer) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_1) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_2) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_3) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_4) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_5) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_6) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_8) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_7) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+
+</span></span></span><span class="line"><span class="cl"><span class="go">| address (wallet_9) | 100000000000000 |
+</span></span></span><span class="line"><span class="cl"><span class="go">+--------------------+-----------------+</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Now that we&rsquo;re in the <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop#Overview">REPL</a>, we can call the
+public functions/contracts listed above.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>For example here&rsquo;s how we can the <code>hello-world</code>
+function from our <code>.hello-world</code> contract.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> (contract-call? .hello-world hello-world)
+</span></span><span class="line"><span class="cl"><span class="go">(ok &#34;Hello World&#34;)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>The process for setting up our <a href="https://github.com/hirosystems/clarinet">Clarinet</a> workspace
+will be the same for the rest of our smart-contracts.</p>
 
           </td>
           <td class="code empty">
@@ -99,7 +245,7 @@ smart-contract, let&rsquo;s learn more about the language.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>
