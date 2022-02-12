@@ -32,7 +32,7 @@
 		
 ;; Makes sure the sender has the funds.
 		(asserts! 
-			(< (ft-get-balance example from) amount) 
+			(>= (ft-get-balance example from) amount) 
 			(err ERR_INSUFFICIENT_BALANCE)
 		)
 		
