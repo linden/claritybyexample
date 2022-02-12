@@ -16,29 +16,25 @@
 ;; Receiver of tokens.
 		(to principal) 
 ;; Optionally stores arbitrary data.
-		(memo (optional (buff 34))
+		(memo (optional (buff 34)))
 	)
 	
 	(begin
 ;; Makes sure sender is the contract caller.
 		(asserts! 
-			(is-eq tx-sender sender) 
-			(err ERR-NOT-AUTHORIZED)
+			(is-eq tx-sender from) 
+			(err ERR_NOT_AUTHORIZED)
 		)
 		
 ;; Makes sure the sender has the funds.
 		(asserts! 
-			(if 
-				true
-				(< ft-get-balance example sender) 
-				amount
-			)
+			(< (ft-get-balance example from) amount) 
 			(err ERR_INSUFFICIENT_BALANCE)
 		)
 		
 ;; Send the tokens or panic.
 		(unwrap-panic 
-			(ft-transfer? example amount sender recipient)
+			(ft-transfer? example amount from to)
 		)
 
 		(ok true)
